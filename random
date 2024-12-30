@@ -1,0 +1,39 @@
+import random
+import string
+
+def generate_password(length=12, use_uppercase=True, use_lowercase=True, use_digits=True, use_special=True):
+    if not (use_uppercase or use_lowercase or use_digits or use_special):
+        raise ValueError("At least one character type must be selected")
+    
+    character_pool = ""
+    if use_uppercase:
+        character_pool += string.ascii_uppercase
+    if use_lowercase:
+        character_pool += string.ascii_lowercase
+    if use_digits:
+        character_pool += string.digits
+    if use_special:
+        character_pool += string.punctuation
+    
+    if not character_pool:
+        raise ValueError("No characters available to generate password")
+    
+    password = ''.join(random.choice(character_pool) for _ in range(length))
+    return password
+
+# User interaction
+if __name__ == "__main__":
+    print("Welcome to the Random Password Generator!")
+    
+    try:
+        length = int(input("Enter the desired password length (default 12): ") or 12)
+        use_uppercase = input("Include uppercase letters? (y/n, default y): ").lower() in ["y", "yes", ""]
+        use_lowercase = input("Include lowercase letters? (y/n, default y): ").lower() in ["y", "yes", ""]
+        use_digits = input("Include digits? (y/n, default y): ").lower() in ["y", "yes", ""]
+        use_special = input("Include special characters? (y/n, default y): ").lower() in ["y", "yes", ""]
+        
+        password = generate_password(length, use_uppercase, use_lowercase, use_digits, use_special)
+        print("\nYour random password is:")
+        print(password)
+    except ValueError as e:
+        print(f"Error: {e}")
